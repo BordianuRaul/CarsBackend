@@ -1,36 +1,22 @@
 package com.example.backend.model;
 
-import jakarta.persistence.*;
-
-
 import java.lang.reflect.Constructor;
 
-@Entity
 public class Car {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String model;
     private String brand;
     private int year;
 
-    @ManyToOne
-    @JoinColumn(name = "dealership_id")
-    private Dealership dealership;
-
-    public Car(String model, String brand, int year, Dealership dealership) throws Exception {
+    public Car(int id, String model, String brand, int year) throws Exception {
         if(model.equals("") || brand.equals("") || year < 1769)
             throw new Exception("Invalid data for the car");
         if(model.equals("Mustang") && !brand.equals("Ford"))
             throw new Exception("Only Ford makes mustangs!");
+        this.id = id;
         this.model = model;
         this.brand = brand;
         this.year = year;
-        this.dealership = dealership;
-    }
-
-    public Car() {
-
     }
 
     public int getId() {
@@ -64,15 +50,11 @@ public class Car {
     public void setYear(int year) {
         this.year = year;
     }
-
-    public Dealership getDealership() {
-        return dealership;
-    }
     @Override
     public String toString() {
         return "id = " + id +
-                " model = " + model +
-                " brand = " + brand +
+                " model = " + model + '\'' +
+                " brand = " + brand + '\'' +
                 " year = " + year;
     }
     @Override
